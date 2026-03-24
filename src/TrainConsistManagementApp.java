@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TrainConsistManagementApp {
 
@@ -13,12 +15,16 @@ public class TrainConsistManagementApp {
         passengerBogies.add("AC Chair");
         passengerBogies.add("First Class");
 
-        System.out.println("Passenger bogies after addition: " + passengerBogies);
+        System.out.println("Passenger bogies: " + passengerBogies);
 
-        passengerBogies.remove("AC Chair");
+        Set<String> bogieIds = new HashSet<>();
 
-        System.out.println("Passenger bogies after removal: " + passengerBogies);
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
+        bogieIds.add("BG101");
+        bogieIds.add("BG103");
+        bogieIds.add("BG102");
 
-        System.out.println("Does Sleeper exist? " + passengerBogies.contains("Sleeper"));
+        System.out.println("Unique Bogie IDs: " + bogieIds);
     }
 }
