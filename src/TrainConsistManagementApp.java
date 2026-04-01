@@ -1,34 +1,52 @@
 import java.util.*;
+import java.util.stream.*;
 
-class GoodsBogie {
-    private String type;
-    private String cargo;
+class Bogie {
+    private String name;
+    private int capacity;
 
-    public GoodsBogie(String type, String cargo) {
-        this.type = type;
-        this.cargo = cargo;
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public String getCargo() {
-        return cargo;
+    public int getCapacity() {
+        return capacity;
     }
 }
 
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
-        List<GoodsBogie> goodsList = new ArrayList<>();
+        List<Bogie> bogieList = new ArrayList<>();
 
-        goodsList.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        goodsList.add(new GoodsBogie("Rectangular", "Coal"));
-        goodsList.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        for (int i = 0; i < 10000; i++) {
+            bogieList.add(new Bogie("Sleeper", 72));
+            bogieList.add(new Bogie("AC Chair", 56));
+            bogieList.add(new Bogie("First Class", 24));
+        }
 
-        boolean isSafe = goodsList.stream()
-                .allMatch(b -> !b.getType().equals("Cylindrical") || b.getCargo().equals("Petroleum"));
+        long startLoop = System.nanoTime();
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : bogieList) {
+            if (b.getCapacity() > 60) {
+                loopResult.add(b);
+            }
+        }
+        long endLoop = System.nanoTime();
 
-        System.out.println("Train Safety Compliance: " + isSafe);
+        long startStream = System.nanoTime();
+        List<Bogie> streamResult = bogieList.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+        long endStream = System.nanoTime();
+
+        System.out.println("Loop Time: " + (endLoop - startLoop));
+        System.out.println("Stream Time: " + (endStream - startStream));
+        System.out.println("Loop Result Size: " + loopResult.size());
+        System.out.println("Stream Result Size: " + streamResult.size());
     }
 }
