@@ -1,35 +1,48 @@
-import java.util.Arrays;
-
 public class TrainConsistManagementApp {
+
+    // Linear Search Method
+    public static boolean searchBogie(String[] bogieIds, String key) {
+
+        for (int i = 0; i < bogieIds.length; i++) {
+            if (bogieIds[i].equals(key)) {
+                return true; // Match found → stop early
+            }
+        }
+
+        return false; // No match found after full traversal
+    }
 
     public static void main(String[] args) {
 
-        // Example 1: Unsorted bogie names
-        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        // Example bogie IDs (unsorted)
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
+        // Search key
+        String searchKey = "BG309";
 
-        // Using built-in sorting
-        Arrays.sort(bogieNames);
+        System.out.println("Searching for Bogie ID: " + searchKey);
 
-        System.out.println("After Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
+        boolean found = searchBogie(bogieIds, searchKey);
 
-        // Example 2: Unsorted input
-        String[] unsorted = {"Luxury", "General", "Sleeper", "AC Chair"};
-        Arrays.sort(unsorted);
+        if (found) {
+            System.out.println("Bogie ID " + searchKey + " FOUND in the consist.");
+        } else {
+            System.out.println("Bogie ID " + searchKey + " NOT FOUND.");
+        }
 
-        // Example 3: Already sorted
-        String[] alreadySorted = {"AC Chair", "First Class", "General"};
-        Arrays.sort(alreadySorted);
+        // Additional test cases
 
-        // Example 4: Duplicate values
-        String[] duplicates = {"Sleeper", "AC Chair", "Sleeper", "General"};
-        Arrays.sort(duplicates);
+        // First element match
+        System.out.println("\nSearching BG101: " + searchBogie(bogieIds, "BG101"));
 
-        // Example 5: Single element
-        String[] single = {"Sleeper"};
-        Arrays.sort(single);
+        // Last element match
+        System.out.println("Searching BG550: " + searchBogie(bogieIds, "BG550"));
+
+        // Not found case
+        System.out.println("Searching BG999: " + searchBogie(bogieIds, "BG999"));
+
+        // Single element array
+        String[] single = {"BG101"};
+        System.out.println("Single array search BG101: " + searchBogie(single, "BG101"));
     }
 }
