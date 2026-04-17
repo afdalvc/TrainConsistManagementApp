@@ -1,48 +1,72 @@
+import java.util.Arrays;
+
 public class TrainConsistManagementApp {
 
-    // Linear Search Method
-    public static boolean searchBogie(String[] bogieIds, String key) {
+    // Binary Search Method
+    public static boolean binarySearch(String[] bogieIds, String key) {
 
-        for (int i = 0; i < bogieIds.length; i++) {
-            if (bogieIds[i].equals(key)) {
-                return true; // Match found → stop early
+        // Requirement: ensure sorted input
+        Arrays.sort(bogieIds);
+
+        int low = 0;
+        int high = bogieIds.length - 1;
+
+        while (low <= high) {
+
+            int mid = (low + high) / 2;
+
+            // Compare using compareTo()
+            int result = bogieIds[mid].compareTo(key);
+
+            if (result == 0) {
+                return true; // Found
+            }
+
+            if (result < 0) {
+                low = mid + 1; // search right half
+            } else {
+                high = mid - 1; // search left half
             }
         }
 
-        return false; // No match found after full traversal
+        return false; // Not found
     }
 
     public static void main(String[] args) {
 
-        // Example bogie IDs (unsorted)
+        // Example 1: Normal case
         String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        // Search key
-        String searchKey = "BG309";
+        String key1 = "BG309";
 
-        System.out.println("Searching for Bogie ID: " + searchKey);
+        System.out.println("Searching: " + key1);
+        System.out.println("Found: " + binarySearch(bogieIds, key1));
 
-        boolean found = searchBogie(bogieIds, searchKey);
+        // Example 2: Not found
+        System.out.println("\nSearching BG999:");
+        System.out.println("Found: " + binarySearch(bogieIds, "BG999"));
 
-        if (found) {
-            System.out.println("Bogie ID " + searchKey + " FOUND in the consist.");
-        } else {
-            System.out.println("Bogie ID " + searchKey + " NOT FOUND.");
-        }
+        // Example 3: First element
+        System.out.println("\nSearching BG101:");
+        System.out.println("Found: " + binarySearch(bogieIds, "BG101"));
 
-        // Additional test cases
+        // Example 4: Last element
+        System.out.println("\nSearching BG550:");
+        System.out.println("Found: " + binarySearch(bogieIds, "BG550"));
 
-        // First element match
-        System.out.println("\nSearching BG101: " + searchBogie(bogieIds, "BG101"));
-
-        // Last element match
-        System.out.println("Searching BG550: " + searchBogie(bogieIds, "BG550"));
-
-        // Not found case
-        System.out.println("Searching BG999: " + searchBogie(bogieIds, "BG999"));
-
-        // Single element array
+        // Example 5: Single element
         String[] single = {"BG101"};
-        System.out.println("Single array search BG101: " + searchBogie(single, "BG101"));
+        System.out.println("\nSingle element search:");
+        System.out.println("Found: " + binarySearch(single, "BG101"));
+
+        // Example 6: Empty array
+        String[] empty = {};
+        System.out.println("\nEmpty array search:");
+        System.out.println("Found: " + binarySearch(empty, "BG101"));
+
+        // Example 7: Unsorted input
+        String[] unsorted = {"BG309", "BG101", "BG550", "BG205", "BG412"};
+        System.out.println("\nUnsorted input search BG205:");
+        System.out.println("Found: " + binarySearch(unsorted, "BG205"));
     }
 }
