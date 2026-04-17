@@ -1,56 +1,66 @@
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
+public class TrainConsistManagementApp {
 
-class GoodsBogie {
-    private String shape;   // Rectangular or Cylindrical
-    private String cargo;   // Assigned cargo
+    // Method to perform Bubble Sort
+    public static void bubbleSort(int[] capacities) {
+        int n = capacities.length;
 
-    public GoodsBogie(String shape) {
-        this.shape = shape;
-    }
+        for (int i = 0; i < n - 1; i++) {
+            // Flag to check if any swap happens (optimization)
+            boolean swapped = false;
 
-    public void assignCargo(String cargoType) {
-        try {
-            // Validation
-            if (shape.equalsIgnoreCase("Rectangular") && cargoType.equalsIgnoreCase("Petroleum")) {
-                throw new CargoSafetyException("Unsafe cargo assignment: Petroleum cannot be loaded in Rectangular bogie.");
+            for (int j = 0; j < n - i - 1; j++) {
+                if (capacities[j] > capacities[j + 1]) {
+                    // Swap
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+
+                    swapped = true;
+                }
             }
 
-            // Safe assignment
-            this.cargo = cargoType;
-            System.out.println("Cargo '" + cargoType + "' assigned to " + shape + " bogie successfully.");
-
-        } catch (CargoSafetyException e) {
-            // Handle exception gracefully
-            System.out.println("ERROR: " + e.getMessage());
-
-        } finally {
-            // Always executes
-            System.out.println("Cargo assignment attempt completed.\n");
+            // If no swaps, array is already sorted
+            if (!swapped) {
+                break;
+            }
         }
     }
 
-    public String getCargo() {
-        return cargo;
+    // Method to display array
+    public static void display(int[] capacities) {
+        for (int cap : capacities) {
+            System.out.print(cap + " ");
+        }
+        System.out.println();
     }
-}
 
-public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
-        // Safe case
-        GoodsBogie bogie1 = new GoodsBogie("Cylindrical");
-        bogie1.assignCargo("Petroleum");   // ✅ Allowed
+        // Example 1: Unsorted array
+        int[] bogieCapacities = {72, 56, 24, 70, 60};
 
-        // Unsafe case
-        GoodsBogie bogie2 = new GoodsBogie("Rectangular");
-        bogie2.assignCargo("Petroleum");   // ❌ Should trigger exception
+        System.out.println("Before Sorting:");
+        display(bogieCapacities);
 
-        // Another safe case to prove program continues
-        GoodsBogie bogie3 = new GoodsBogie("Rectangular");
-        bogie3.assignCargo("Coal");        // ✅ Allowed
+        bubbleSort(bogieCapacities);
+
+        System.out.println("After Sorting:");
+        display(bogieCapacities);
+
+        // Example 2: Already sorted
+        int[] sortedArray = {24, 56, 60, 70, 72};
+        bubbleSort(sortedArray);
+
+        // Example 3: Duplicate values
+        int[] duplicateArray = {72, 56, 56, 24};
+        bubbleSort(duplicateArray);
+
+        // Example 4: Single element
+        int[] singleElement = {50};
+        bubbleSort(singleElement);
+
+        // Example 5: All equal values
+        int[] equalValues = {40, 40, 40};
+        bubbleSort(equalValues);
     }
 }
